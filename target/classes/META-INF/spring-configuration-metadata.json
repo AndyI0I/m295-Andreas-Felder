@@ -1,0 +1,23 @@
+{
+  "groups": [
+    {
+      "name": "example",
+      "type": "ch.ubs.m295.demo.services.Properties",
+      "sourceType": "ch.ubs.m295.demo.services.Properties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "example.sample-number",
+      "type": "java.lang.Integer",
+      "sourceType": "ch.ubs.m295.demo.services.Properties",
+      "defaultValue": 0
+    },
+    {
+      "name": "example.sample-property",
+      "type": "java.lang.String",
+      "sourceType": "ch.ubs.m295.demo.services.Properties"
+    }
+  ],
+  "hints": []
+}
