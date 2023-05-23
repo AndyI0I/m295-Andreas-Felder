@@ -11,18 +11,18 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 @Configuration
 public class SpringConfiguration {
 
-    @Bean
-    Sample sample(Properties properties) {
-        return new Sample(properties);
-    }
+      @Bean
+      Sample sample(Properties properties) {
+            return new Sample(properties);
+      }
 
-    @Bean
-    public AppLogger getLogger(){
-        return new AppLogger();
-    }
+      @Bean
+      public AppLogger getLogger(){
+            return new AppLogger();
+      }
 
-    @Bean
-    public StudentDao dao(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
-        return new StudentDao(namedParameterJdbcTemplate);
-    }
+      @Bean
+      public StudentDao dao(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+            return new StudentDao(namedParameterJdbcTemplate);
+      }
 }
