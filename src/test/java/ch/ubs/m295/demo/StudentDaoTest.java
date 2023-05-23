@@ -1,10 +1,8 @@
 package ch.ubs.m295.demo;
 
-
 import ch.ubs.m295.demo.dao.StudentDao;
 import ch.ubs.m295.demo.dto.Grade;
 import ch.ubs.m295.demo.dto.Student;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,7 +18,6 @@ import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class StudentDaoTest {
-
 
       @Mock
       private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
