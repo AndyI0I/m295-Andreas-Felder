@@ -49,14 +49,7 @@ public class StudentDao {
       public Student GetByID(int studentId) {
             String sql = "SELECT * FROM student WHERE studentid = :studentid";
             SqlParameterSource paramSource = new MapSqlParameterSource().addValue("studentid", studentId);
-            return this.jdbcTemplate.queryForObject(sql, paramSource, (rs, rowNum) -> {
-                  int studentid = rs.getInt("studentid");
-                  String studentname = rs.getString("studentname");
-                  Grade grade = Grade.valueOf(rs.getString("grade").toString());
-                  int age = rs.getInt("age");
-                  String module = rs.getString("module");
-                  return new Student(studentid, studentname, grade, age, module);
-            });
+            return this.jdbcTemplate.queryForObject(sql, paramSource, new BeanPropertyRowMapper<>(Student.class));
       }
       public List<Student> GetAll() {
             String sql = "SELECT * FROM Student";
