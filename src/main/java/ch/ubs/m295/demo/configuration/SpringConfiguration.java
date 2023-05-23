@@ -23,7 +23,7 @@ public class SpringConfiguration {
       }
 
       @Bean
-      public StudentDao dao(NamedParameterJdbcTemplate namedParameterJdbcTemplate, StudentSetExtractor studentSetExtractor){
-            return new StudentDao(namedParameterJdbcTemplate, studentSetExtractor);
+      public StudentDao dao(NamedParameterJdbcTemplate namedParameterJdbcTemplate){
+            return new StudentDao(namedParameterJdbcTemplate, new StudentSetExtractor());
       }
 }

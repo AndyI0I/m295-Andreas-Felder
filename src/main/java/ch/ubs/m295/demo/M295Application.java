@@ -12,7 +12,6 @@ public class M295Application {
 
       public static void main(String[] args) {
             SpringApplication.run(M295Application.class, args);
-
       }
 
 }

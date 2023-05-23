@@ -1,4 +1,4 @@
-package ch.ubs.m295.demo;
+package ch.ubs.m295.demo.unitTests;
 
 import ch.ubs.m295.demo.dao.StudentDao;
 import ch.ubs.m295.demo.dto.Grade;
