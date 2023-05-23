@@ -1,4 +1,4 @@
-package ch.ubs.m295.demo.services;
+package ch.ubs.m295.demo.configuration;
 
 public class Sample {
     public Sample(Properties properties) {

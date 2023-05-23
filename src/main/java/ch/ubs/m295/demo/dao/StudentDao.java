@@ -60,7 +60,6 @@ public class StudentDao {
     }
     public List<Student> GetAll() {
         String sql = "SELECT * FROM Student";
-
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Student.class));
     }
 }

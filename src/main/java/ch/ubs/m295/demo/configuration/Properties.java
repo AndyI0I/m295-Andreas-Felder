@@ -1,4 +1,4 @@
-package ch.ubs.m295.demo.services;
+package ch.ubs.m295.demo.configuration;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
