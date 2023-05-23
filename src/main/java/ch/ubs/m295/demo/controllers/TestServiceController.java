@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class TestServiceController {
@@ -17,7 +18,6 @@ public class TestServiceController {
       public TestServiceController(StudentDao studentDao) {
             this.studentDao = studentDao;
       }
-
 
       @PostMapping("/students")
       public ResponseEntity<String> insertStudent(@RequestBody Student student) {
@@ -51,7 +51,8 @@ public class TestServiceController {
 
       @GetMapping("/students/{id}")
       public Student getStudent(@PathVariable int id) {
-            Student student = studentDao.GetByID(id);
+            //read
+            Student student = studentDao.GetByID(id).orElseThrow(() -> new RuntimeException("Student not found"));
             return student;
       }
 

@@ -2,12 +2,14 @@ package ch.ubs.m295.demo.dao;
 
 import ch.ubs.m295.demo.dto.Grade;
 import ch.ubs.m295.demo.dto.Student;
+import ch.ubs.m295.demo.services.StudentSetExtractor;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 
 import java.util.List;
+import java.util.Optional;
 
 public class StudentDao {
 
@@ -46,10 +48,10 @@ public class StudentDao {
             return this.jdbcTemplate.update(sql, paramSource);
       }
 
-      public Student GetByID(int studentId) {
+      public Optional<Student> GetByID(int studentId) {
             String sql = "SELECT * FROM student WHERE studentid = :studentid";
             SqlParameterSource paramSource = new MapSqlParameterSource().addValue("studentid", studentId);
-            return this.jdbcTemplate.queryForObject(sql, paramSource, new BeanPropertyRowMapper<>(Student.class));
+            return this.jdbcTemplate.query(sql, paramSource, new StudentSetExtractor());
       }
       public List<Student> GetAll() {
             String sql = "SELECT * FROM Student";
