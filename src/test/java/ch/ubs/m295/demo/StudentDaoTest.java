@@ -3,6 +3,7 @@ package ch.ubs.m295.demo;
 import ch.ubs.m295.demo.dao.StudentDao;
 import ch.ubs.m295.demo.dto.Grade;
 import ch.ubs.m295.demo.dto.Student;
+import ch.ubs.m295.demo.services.StudentSetExtractor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,12 +22,14 @@ class StudentDaoTest {
 
       @Mock
       private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+      @Mock
+      private StudentSetExtractor studentSetExtractor;
 
       private StudentDao studentDao;
 
       @BeforeEach
       void initalize() {
-            this.studentDao = new StudentDao(this.namedParameterJdbcTemplate);
+            this.studentDao = new StudentDao(this.namedParameterJdbcTemplate, studentSetExtractor);
       }
 
       @Test
@@ -51,5 +54,20 @@ class StudentDaoTest {
             assertThat(mapSqlParameterSource.getValue("grade")).isEqualTo("A");
             assertThat(mapSqlParameterSource.getValue("age")).isEqualTo(98);
             assertThat(mapSqlParameterSource.getValue("module")).isEqualTo("M295");
+      }
+
+      //test if the getById method works
+      @Test
+      void read(){
+            this.studentDao.GetByID(10);
+            ArgumentCaptor<MapSqlParameterSource> argumentCaptor = ArgumentCaptor.forClass(MapSqlParameterSource.class);
+
+            verify(this.namedParameterJdbcTemplate).query(
+                    eq("SELECT * FROM student WHERE studentid = :studentid"),
+                    argumentCaptor.capture(),
+                    eq(studentSetExtractor)
+            );
+            MapSqlParameterSource mapSqlParameterSource = argumentCaptor.getValue();
+            assertThat(mapSqlParameterSource.getValue("studentid")).isEqualTo(10);
       }
 }

@@ -14,9 +14,11 @@ import java.util.Optional;
 public class StudentDao {
 
       private final NamedParameterJdbcTemplate jdbcTemplate;
+      private final StudentSetExtractor studentSetExtractor;
 
-      public StudentDao(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+      public StudentDao(NamedParameterJdbcTemplate namedParameterJdbcTemplate, StudentSetExtractor studentSetExtractor) {
             this.jdbcTemplate = namedParameterJdbcTemplate;
+            this.studentSetExtractor = studentSetExtractor;
       }
 
       public int add(Student student) {
@@ -51,7 +53,7 @@ public class StudentDao {
       public Optional<Student> GetByID(int studentId) {
             String sql = "SELECT * FROM student WHERE studentid = :studentid";
             SqlParameterSource paramSource = new MapSqlParameterSource().addValue("studentid", studentId);
-            return this.jdbcTemplate.query(sql, paramSource, new StudentSetExtractor());
+            return this.jdbcTemplate.query(sql, paramSource, studentSetExtractor);
       }
       public List<Student> GetAll() {
             String sql = "SELECT * FROM Student";

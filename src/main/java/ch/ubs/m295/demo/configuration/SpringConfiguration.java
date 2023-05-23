@@ -2,6 +2,7 @@ package ch.ubs.m295.demo.configuration;
 
 import ch.ubs.m295.demo.dao.StudentDao;
 import ch.ubs.m295.demo.services.AppLogger;
+import ch.ubs.m295.demo.services.StudentSetExtractor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,7 +23,7 @@ public class SpringConfiguration {
       }
 
       @Bean
-      public StudentDao dao(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
-            return new StudentDao(namedParameterJdbcTemplate);
+      public StudentDao dao(NamedParameterJdbcTemplate namedParameterJdbcTemplate, StudentSetExtractor studentSetExtractor){
+            return new StudentDao(namedParameterJdbcTemplate, studentSetExtractor);
       }
 }
