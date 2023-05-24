@@ -19,6 +19,9 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Student'
+        '400':
+          description: Bad Request
+
 components:
   schemas:
     Student:

@@ -22,13 +22,8 @@ public class StudentsController extends AbstractRestController implements Studen
       }
 
       @Override
-      public Optional<NativeWebRequest> getRequest() {
-            return StudentsApi.super.getRequest();
-      }
-
-      @Override
       public ResponseEntity<List<Student>> studentsGet() {
-            return ResponseEntity.ok(studentDao.GetAll());
+            return getResponseFromThis(studentDao.GetAll());
       }
 
 }
