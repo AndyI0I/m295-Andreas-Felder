@@ -1,0 +1,45 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Spring Boot REST API
+  description: Spring Boot REST API for Online Store
+
+servers:
+  - url: http://localhost:8080
+paths:
+  /students:
+    get:
+      description: Get all products
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Student'
+components:
+  schemas:
+    Student:
+      type: object
+      properties:
+        studentid:
+          type: integer
+          format: int32
+        studentname:
+          type: string
+        grade:
+          type: string
+          enum:
+            - A
+            - B
+            - C
+            - D
+            - E
+            - F
+        age:
+          type: integer
+          format: int32
+        module:
+          type: string

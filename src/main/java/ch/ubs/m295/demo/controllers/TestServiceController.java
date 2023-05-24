@@ -1,7 +1,7 @@
 package ch.ubs.m295.demo.controllers;
 
 import ch.ubs.m295.demo.dao.StudentDao;
-import ch.ubs.m295.demo.dto.Student;
+import ch.ubs.m295.generated.v1.dto.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +19,7 @@ public class TestServiceController {
             this.studentDao = studentDao;
       }
 
-      @PostMapping("/students")
+      @PostMapping("/test")
       public ResponseEntity<String> insertStudent(@RequestBody Student student) {
             try {
                   studentDao.add(student);
@@ -29,7 +29,7 @@ public class TestServiceController {
             return ResponseEntity.ok("Student inserted successfully");
       }
 
-      @DeleteMapping("/students/{id}")
+      @DeleteMapping("/test/{id}")
       public ResponseEntity<String> deleteStudent(@PathVariable int id) {
             try {
                   studentDao.deleteById(id);
@@ -39,7 +39,7 @@ public class TestServiceController {
             return ResponseEntity.ok("Student deleted successfully");
       }
 
-      @PutMapping("/students/{id}")
+      @PutMapping("/test/{id}")
       public ResponseEntity<String> updateStudent(@PathVariable int id, @RequestBody Student student) {
             try {
                   studentDao.updateById(student);
@@ -49,14 +49,14 @@ public class TestServiceController {
             return ResponseEntity.ok("Student updated successfully");
       }
 
-      @GetMapping("/students/{id}")
+      @GetMapping("/test/{id}")
       public Student getStudent(@PathVariable int id) {
             //read
             Student student = studentDao.GetByID(id).orElseThrow(() -> new RuntimeException("Student not found"));
             return student;
       }
 
-      @GetMapping("/students")
+      @GetMapping("/test")
       public List<Student> testGetAllStudents() {
             List<Student> students = studentDao.GetAll();
             return students;

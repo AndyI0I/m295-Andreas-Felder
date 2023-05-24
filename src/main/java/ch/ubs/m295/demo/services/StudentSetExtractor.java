@@ -1,7 +1,6 @@
 package ch.ubs.m295.demo.services;
 
-import ch.ubs.m295.demo.dto.Grade;
-import ch.ubs.m295.demo.dto.Student;
+import ch.ubs.m295.generated.v1.dto.Student;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
 
@@ -13,12 +12,13 @@ public class StudentSetExtractor implements ResultSetExtractor<Optional<Student>
       @Override
       public Optional<Student> extractData(ResultSet rs) throws SQLException, DataAccessException {
             if(rs.next()) {
+                  Student s = new Student();
                   int studentid = rs.getInt("studentid");
                   String studentname = rs.getString("studentname");
-                  Grade grade = Grade.valueOf(rs.getString("grade").toString());
                   int age = rs.getInt("age");
+                  String grade = rs.getString("grade");
                   String module = rs.getString("module");
-                  return Optional.of(new Student(studentid, studentname, grade, age, module));
+                  return Optional.of(s);
             }else{
                   return Optional.empty();
             }

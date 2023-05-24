@@ -1,9 +1,8 @@
 package ch.ubs.m295.demo.unitTests;
 
 import ch.ubs.m295.demo.dao.StudentDao;
-import ch.ubs.m295.demo.dto.Grade;
-import ch.ubs.m295.demo.dto.Student;
 import ch.ubs.m295.demo.services.StudentSetExtractor;
+import ch.ubs.m295.generated.v1.dto.Student;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -34,13 +33,13 @@ class StudentDaoTest {
 
       @Test
       void insert() {
-            Student student = new Student(
-                    10,
-                    "Chuck Norris",
-                    Grade.A,
-                    98,
-                    "M295"
-            );
+            Student student = new Student(){{
+                  setStudentid(10);
+                  setStudentname("Chuck Norris");
+                  setGrade(Student.GradeEnum.A);
+                  setAge(98);
+                  setModule("M295");
+            }};
             this.studentDao.add(student);
             ArgumentCaptor<MapSqlParameterSource> argumentCaptor =
                     ArgumentCaptor.forClass(MapSqlParameterSource.class);

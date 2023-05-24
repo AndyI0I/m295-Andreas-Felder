@@ -1,8 +1,7 @@
 package ch.ubs.m295.demo.dao;
 
-import ch.ubs.m295.demo.dto.Grade;
-import ch.ubs.m295.demo.dto.Student;
 import ch.ubs.m295.demo.services.StudentSetExtractor;
+import ch.ubs.m295.generated.v1.dto.Student;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;

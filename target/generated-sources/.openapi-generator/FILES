@@ -1,0 +1,6 @@
+.openapi-generator-ignore
+README.md
+java/ch/ubs/m295/generated/v1/controller/ApiUtil.java
+java/ch/ubs/m295/generated/v1/controller/StudentsApi.java
+java/ch/ubs/m295/generated/v1/dto/Student.java
+pom.xml
