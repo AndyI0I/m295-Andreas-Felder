@@ -1,10 +1,12 @@
 package ch.ubs.m295.m295andreas.configuration;
 
+import ch.ubs.m295.m295andreas.dao.UserDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import java.util.Properties;
 
@@ -19,7 +21,7 @@ public class SpringConfiguration {
       }
 
       @Bean
-      public  dao(NamedParameterJdbcTemplate namedParameterJdbcTemplate){
-            return new StudentDao(namedParameterJdbcTemplate, new StudentSetExtractor());
+      public UserDAO dao(NamedParameterJdbcTemplate namedParameterJdbcTemplate){
+            return new UserDAO(namedParameterJdbcTemplate);
       }
 }

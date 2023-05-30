@@ -8,6 +8,8 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
 
 /*public class User   {
   @JsonProperty("id")
@@ -43,11 +45,18 @@ public class UserDAO {
       }
 
       //get user
-      public User getUser(int id) {
+      public Optional<User> getUser(int id) {
             String sql = "SELECT * FROM users WHERE id = :id";
             SqlParameterSource paramSource = new MapSqlParameterSource()
                   .addValue("id", id);
-            return jdbcTemplate.queryForObject(sql, paramSource, userSetExtractor);
+            return jdbcTemplate.query(sql, paramSource, userSetExtractor);
+      }
+
+      //get all users
+      public List<User> getAllUsers() {
+            String sql = "SELECT * FROM users";
+            SqlParameterSource paramSource = new MapSqlParameterSource();
+            return jdbcTemplate.query(sql, paramSource, userSetExtractor);
       }
 
       
