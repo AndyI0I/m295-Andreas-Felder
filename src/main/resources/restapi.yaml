@@ -181,3 +181,6 @@ components:
           format: int32
         seller:
           type: string
+        price:
+          type: number
+          format: double

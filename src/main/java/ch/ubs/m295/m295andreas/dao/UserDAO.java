@@ -3,6 +3,7 @@ package ch.ubs.m295.m295andreas.dao;
 
 import ch.ubs.m295.generated.v1.dto.User;
 import ch.ubs.m295.m295andreas.services.UserSetExtractor;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -56,7 +57,7 @@ public class UserDAO {
       public List<User> getAllUsers() {
             String sql = "SELECT * FROM users";
             SqlParameterSource paramSource = new MapSqlParameterSource();
-            return jdbcTemplate.query(sql, paramSource, userSetExtractor);
+            return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(User.class));
       }
 
       
