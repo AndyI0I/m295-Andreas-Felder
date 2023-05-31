@@ -1,5 +1,7 @@
 package ch.ubs.m295.m295andreas.configuration;
 
+import ch.ubs.m295.m295andreas.dao.subDAOs.UserDAO;
+import ch.ubs.m295.m295andreas.services.extractors.UserSetExtractor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -26,7 +28,14 @@ public class SpringConfiguration {
       }
 
       @Bean
-      public
+      public UserSetExtractor userSetExtractor(){
+            return new UserSetExtractor();
+      }
+
+      @Bean
+      public UserDAO userDAO(){
+            return new UserDAO();
+      }
 
 
 }
