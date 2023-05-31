@@ -7,18 +7,15 @@ public class ProductTable {
 
       private String productname;
 
-      private Integer quantity;
-
       private String seller;
 
       private Double price;
 
       public ProductTable() {}
 
-      public ProductTable(Integer id, String productname, Integer quantity, String seller, Double price) {
+      public ProductTable(Integer id, String productname, String seller, Double price) {
     	  this.id = id;
     	  this.productname = productname;
-    	  this.quantity = quantity;
     	  this.seller = seller;
     	  this.price = price;
       }
@@ -37,14 +34,6 @@ public class ProductTable {
 
       public void setProductname(String productname) {
             this.productname = productname;
-      }
-
-      public Integer getQuantity() {
-            return quantity;
-      }
-
-      public void setQuantity(Integer quantity) {
-            this.quantity = quantity;
       }
 
       public String getSeller() {

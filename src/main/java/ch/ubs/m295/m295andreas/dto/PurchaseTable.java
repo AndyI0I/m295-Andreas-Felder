@@ -1,6 +1,7 @@
 package ch.ubs.m295.m295andreas.dto;
 
 public class PurchaseTable {
+
       private Integer id;
 
       private Integer userId;
@@ -38,5 +39,4 @@ public class PurchaseTable {
       public void setIsPending(Boolean isPending) {
     	  this.isPending = isPending;
       }
-
 }
