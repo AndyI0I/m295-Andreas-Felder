@@ -1,7 +1,5 @@
 package ch.ubs.m295.m295andreas.configuration;
 
-import ch.ubs.m295.m295andreas.dao.UserDAO;
-import ch.ubs.m295.m295andreas.services.UserSetExtractor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -22,6 +20,13 @@ public class SpringConfiguration {
             return LoggerFactory.getLogger(SpringConfiguration.class);
       }
 
+      @Bean
+      public NamedParameterJdbcTemplate npjTemplate (DataSource dataSource){
+            return new NamedParameterJdbcTemplate(dataSource);
+      }
+
+      @Bean
+      public
 
 
 }

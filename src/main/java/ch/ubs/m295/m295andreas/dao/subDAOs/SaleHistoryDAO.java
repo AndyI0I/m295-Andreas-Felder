@@ -1,4 +1,4 @@
-package ch.ubs.m295.m295andreas.dao;
+package ch.ubs.m295.m295andreas.dao.subDAOs;
 
 import ch.ubs.m295.generated.v1.dto.SaleHistory;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;

@@ -1,4 +1,4 @@
-package ch.ubs.m295.m295andreas.services;
+package ch.ubs.m295.m295andreas.services.tools;
 
 import ch.ubs.m295.m295andreas.dto.*;
 import ch.ubs.m295.generated.v1.dto.*;
