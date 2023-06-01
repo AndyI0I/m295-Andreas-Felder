@@ -1,6 +1,8 @@
 package ch.ubs.m295.m295andreas.configuration;
 
 import ch.ubs.m295.m295andreas.dao.subDAOs.UserDAO;
+import ch.ubs.m295.m295andreas.services.extractors.ProductSetExtractor;
+import ch.ubs.m295.m295andreas.services.extractors.PurchaseToProductMappingSetExtractor;
 import ch.ubs.m295.m295andreas.services.extractors.UserSetExtractor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,9 +35,20 @@ public class SpringConfiguration {
       }
 
       @Bean
+      public PurchaseToProductMappingSetExtractor pToPSetExtractor(){
+            return new PurchaseToProductMappingSetExtractor();
+      }
+
+      @Bean
+      public ProductSetExtractor productSetExtractor (){
+             return new ProductSetExtractor();
+      }
+
+      @Bean
       public UserDAO userDAO(){
             return new UserDAO();
       }
+
 
 
 }

@@ -19,13 +19,13 @@ public class SaleHistoryDAO {
       }
 
       //add saleHistory
-      public void addSaleHistory(SaleHistory saleHistory) {
+      public int addSaleHistory(SaleHistory saleHistory) {
             String sql = "INSERT INTO saleHistory (userId, salesProductId, isPending) VALUES (:userId, :salesProductId, :isPending)";
             SqlParameterSource paramSource = new MapSqlParameterSource()
                   //.addValue("userId", saleHistory.getUserId())
                   .addValue("salesProductId", saleHistory.getProducts())
                   .addValue("isPending", saleHistory.getIsPending());
-            jdbcTemplate.update(sql, paramSource);
+            return jdbcTemplate.update(sql, paramSource);
       }
 
       //get saleHistory
@@ -44,13 +44,13 @@ public class SaleHistoryDAO {
       }
 
       //update saleHistory
-      public void updateSaleHistory(SaleHistory saleHistory) {
+      public int updateSaleHistory(SaleHistory saleHistory) {
             String sql = "UPDATE saleHistory SET userId = :userId, salesProductId = :salesProductId, isPending = :isPending WHERE id = :id";
             SqlParameterSource paramSource = new MapSqlParameterSource()
                   .addValue("id", saleHistory.getId())
                   //.addValue("userId", saleHistory.getUserId())
                   .addValue("salesProductId", saleHistory.getProducts())
                   .addValue("isPending", saleHistory.getIsPending());
-            jdbcTemplate.update(sql, paramSource);
+            return jdbcTemplate.update(sql, paramSource);
       }
 }

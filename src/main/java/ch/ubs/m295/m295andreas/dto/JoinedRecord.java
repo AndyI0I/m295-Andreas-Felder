@@ -9,11 +9,11 @@ public class JoinedRecord {
 
       private List<ProductTable> products;
 
-      private List<PurchaseToProductMapping> mappings;
+      private List<PurchaseToProductMappingTable> mappings;
 
       public JoinedRecord() {}
 
-      public JoinedRecord(List<UserTable> user, List<PurchaseTable> purchases, List<ProductTable> products, List<PurchaseToProductMapping> mappings) {
+      public JoinedRecord(List<UserTable> user, List<PurchaseTable> purchases, List<ProductTable> products, List<PurchaseToProductMappingTable> mappings) {
     	  this.user = user;
     	  this.purchases = purchases;
     	  this.products = products;
@@ -44,11 +44,11 @@ public class JoinedRecord {
     	  this.products = products;
       }
 
-      public List<PurchaseToProductMapping> getMappings() {
+      public List<PurchaseToProductMappingTable> getMappings() {
     	  return mappings;
       }
 
-      public void setMappings(List<PurchaseToProductMapping> mappings) {
+      public void setMappings(List<PurchaseToProductMappingTable> mappings) {
     	  this.mappings = mappings;
       }
 }

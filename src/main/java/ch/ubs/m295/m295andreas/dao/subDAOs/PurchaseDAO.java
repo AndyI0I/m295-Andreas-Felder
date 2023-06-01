@@ -18,28 +18,28 @@ public class PurchaseDAO {
       @Autowired
       private PurchaseSetExtractor purchaseSetExtractor;
 
-      public void addPurchase(PurchaseTable purchase) {
+      public int addPurchase(PurchaseTable purchase) {
             String sql = "INSERT INTO purchasehistory (userId, isPending) VALUES (:userId, :isPending)";
             SqlParameterSource paramSource = new MapSqlParameterSource()
                   .addValue("user_id", purchase.getUserId())
                   .addValue("isPending", purchase.getIsPending());
-            jdbcTemplate.update(sql, paramSource);
+            return jdbcTemplate.update(sql, paramSource);
       }
 
-      public void updatePurchase(PurchaseTable purchase) {
+      public int updatePurchase(PurchaseTable purchase) {
             String sql = "UPDATE purchasehistory SET userId = :userId, isPending = :isPending WHERE id = :id";
             SqlParameterSource paramSource = new MapSqlParameterSource()
                   .addValue("id", purchase.getId())
                   .addValue("userId", purchase.getUserId())
                   .addValue("isPending", purchase.getIsPending());
-            jdbcTemplate.update(sql, paramSource);
+            return jdbcTemplate.update(sql, paramSource);
       }
 
-      public void deletePurchase(int id) {
+      public int deletePurchase(int id) {
             String sql = "DELETE FROM purchasehistory WHERE id = :id";
             SqlParameterSource paramSource = new MapSqlParameterSource()
                   .addValue("id", id);
-            jdbcTemplate.update(sql, paramSource);
+            return jdbcTemplate.update(sql, paramSource);
       }
 
       public Optional<PurchaseTable> getPurchase(int id) {

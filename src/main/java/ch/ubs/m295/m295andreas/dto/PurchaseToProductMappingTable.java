@@ -1,7 +1,7 @@
 package ch.ubs.m295.m295andreas.dto;
 
 //model for holding the mapping between a purchase and a product
-public class PurchaseToProductMapping {
+public class PurchaseToProductMappingTable {
 
       private Integer purchaseId;
 
@@ -9,9 +9,9 @@ public class PurchaseToProductMapping {
 
       private Integer quantity;
 
-      public PurchaseToProductMapping() {}
+      public PurchaseToProductMappingTable() {}
 
-      public PurchaseToProductMapping(Integer purchaseId, Integer productId, Integer quantity) {
+      public PurchaseToProductMappingTable(Integer purchaseId, Integer productId, Integer quantity) {
     	  this.purchaseId = purchaseId;
     	  this.productId = productId;
     	  this.quantity = quantity;

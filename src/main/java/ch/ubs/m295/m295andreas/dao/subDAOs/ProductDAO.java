@@ -18,33 +18,33 @@ public class ProductDAO {
       @Autowired
       private ProductSetExtractor productSetExtractor;
 
-      public void add(ProductTable product) {
+      public int add(ProductTable product) {
             String sql = "INSERT INTO product (productname, seller, price) VALUES (:productname, :seller, :price)";
             SqlParameterSource namedParameters = new MapSqlParameterSource()
                   .addValue("productname", product.getProductname())
                   .addValue("seller", product.getSeller())
                   .addValue("price", product.getPrice());
-            jdbcTemplate.update(sql, namedParameters);
+            return jdbcTemplate.update(sql, namedParameters);
       }
 
-      public void update(ProductTable product) {
+      public int update(ProductTable product) {
             String sql = "UPDATE product SET productname = :productname,  seller = :seller WHERE id = :id";
             SqlParameterSource namedParameters = new MapSqlParameterSource()
                   .addValue("id", product.getId())
                   .addValue("productname", product.getProductname())
                   .addValue("seller", product.getSeller())
                   .addValue("price", product.getPrice());
-            jdbcTemplate.update(sql, namedParameters);
+            return jdbcTemplate.update(sql, namedParameters);
       }
 
-      public void delete(int id) {
+      public int delete(int id) {
             String sql =
                    "DELETE p, m FROM Products p " +
                   "LEFT JOIN PurchaseToProductMapping m ON p.id = m.productId " +
                   "WHERE p.id = :id";
             SqlParameterSource namedParameters = new MapSqlParameterSource()
                   .addValue("id", id);
-            jdbcTemplate.update(sql, namedParameters);
+            return jdbcTemplate.update(sql, namedParameters);
       }
 
       public Optional<ProductTable> get(int id) {
