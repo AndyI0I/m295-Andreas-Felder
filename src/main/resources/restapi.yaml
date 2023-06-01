@@ -6,6 +6,7 @@ info:
 
 servers:
   - url: http://localhost:8080
+  - url: https://localhost:8443
 
 paths:
   /users:
