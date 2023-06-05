@@ -58,6 +58,20 @@ public class PurchaseToProductMappingDAO {
             return jdbcTemplate.query(sql, paramSource, pToPSetExtractor);
       }
 
+      public List<PurchaseToProductMappingTable> getByPurchaseId(int purchaseId) {
+            String sql = "SELECT * FROM purchase_to_product_mapping WHERE purchaseId = :purchaseId";
+            SqlParameterSource paramSource = new MapSqlParameterSource()
+                  .addValue("purchaseId", purchaseId);
+            return jdbcTemplate.query(sql, paramSource, new BeanPropertyRowMapper<>(PurchaseToProductMappingTable.class));
+      }
+
+      public List<PurchaseToProductMappingTable> getByProductId(int productId) {
+            String sql = "SELECT * FROM purchase_to_product_mapping WHERE productId = :productId";
+            SqlParameterSource paramSource = new MapSqlParameterSource()
+                  .addValue("productId", productId);
+            return jdbcTemplate.query(sql, paramSource, new BeanPropertyRowMapper<>(PurchaseToProductMappingTable.class));
+      }
+
       public List<PurchaseToProductMappingTable> getAll() {
             String sql = "SELECT * FROM purchase_to_product_mapping";
             SqlParameterSource paramSource = new MapSqlParameterSource();

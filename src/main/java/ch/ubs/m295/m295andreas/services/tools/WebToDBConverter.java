@@ -45,30 +45,32 @@ public class WebToDBConverter {
             return productTable;
       }
 
-      public static PurchaseTable convert(Purchase purchase, User user) {
+      public static PurchaseTable convert(Purchase purchase, int userId) {
             PurchaseTable purchaseTable = new PurchaseTable();
             purchaseTable.setId(purchase.getId());
             purchaseTable.setIsPending(purchase.getIsPending());
-            purchaseTable.setUserId(user.getId());
+            purchaseTable.setUserId(userId);
             return purchaseTable;
       }
 
       public static JoinedRecord convert (List<User> users){
-
             JoinedRecord joinedRecord = new JoinedRecord();
             List<UserTable> userTables = new ArrayList<>();
             List<PurchaseTable> purchaseTables = new ArrayList<>();
             List<ProductTable> productTables = new ArrayList<>();
-            List<PurchaseToProductMapping> purchaseToProductMappings = new ArrayList<>();
+            List<PurchaseToProductMappingTable> purchaseToProductMappings = new ArrayList<>();
 
             users.forEach(user -> {
                   userTables.add(convert(user));
+
+                  if(user.getPurchaseHistory() != null){
                   user.getPurchaseHistory().forEach(purchase -> {
-                        purchaseTables.add(convert(purchase, user));
+                        purchaseTables.add(convert(purchase, user.getId()));
                         purchase.getProducts().forEach(product -> {
-                              purchaseToProductMappings.add(new PurchaseToProductMapping(purchase.getId(), product.getId(), product.getQuantity()));
+                              purchaseToProductMappings.add(new PurchaseToProductMappingTable(purchase.getId(), product.getId(), product.getQuantity()));
                         });
                   });
+                  }
             });
 
             joinedRecord.setUser(userTables);
@@ -77,6 +79,26 @@ public class WebToDBConverter {
             joinedRecord.setMappings(purchaseToProductMappings);
 
             return joinedRecord;
+      }
+
+      public static Purchase convert(PurchaseTable purchaseTable){
+            Purchase purchase = new Purchase();
+            purchase.setId(purchaseTable.getId());
+            purchase.setIsPending(purchaseTable.getIsPending());
+            return purchase;
+      }
+
+      public static PurchaseToProductMappingTable convertToMapping (Purchase purchase, int userId){
+            PurchaseToProductMappingTable purchaseToProductMappingTable = new PurchaseToProductMappingTable();
+            return purchaseToProductMappingTable;
+      }
+
+      public static List<PurchaseToProductMappingTable> convertToMappingList (Purchase purchase, int userId){
+            List<PurchaseToProductMappingTable> purchaseToProductMappingTable = new ArrayList<>();
+            purchase.getProducts().forEach(product -> {
+                  purchaseToProductMappingTable.add(convertToMapping(purchase, userId));
+            });
+            return purchaseToProductMappingTable;
       }
 
 }

@@ -55,5 +55,13 @@ public class UserDAO {
             return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(UserTable.class));
       }
 
+      //delete user
+      public void delete(int id) {
+            String sql = "DELETE FROM users WHERE id = :id";
+            SqlParameterSource paramSource = new MapSqlParameterSource()
+                  .addValue("id", id);
+            jdbcTemplate.update(sql, paramSource);
+      }
+
       
 }

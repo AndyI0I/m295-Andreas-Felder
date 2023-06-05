@@ -54,7 +54,7 @@ public class ProductDAO {
             return jdbcTemplate.query(sql, namedParameters, productSetExtractor);
       }
 
-      public List<ProductTable> getall() {
+      public List<ProductTable> getAll() {
             String sql = "SELECT * FROM product";
             SqlParameterSource namedParameters = new MapSqlParameterSource();
             return jdbcTemplate.query(sql, namedParameters, new BeanPropertyRowMapper<>(ProductTable.class));

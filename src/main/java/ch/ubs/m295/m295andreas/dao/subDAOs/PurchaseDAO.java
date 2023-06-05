@@ -18,7 +18,7 @@ public class PurchaseDAO {
       @Autowired
       private PurchaseSetExtractor purchaseSetExtractor;
 
-      public int addPurchase(PurchaseTable purchase) {
+      public int add(PurchaseTable purchase) {
             String sql = "INSERT INTO purchasehistory (userId, isPending) VALUES (:userId, :isPending)";
             SqlParameterSource paramSource = new MapSqlParameterSource()
                   .addValue("user_id", purchase.getUserId())
@@ -26,7 +26,7 @@ public class PurchaseDAO {
             return jdbcTemplate.update(sql, paramSource);
       }
 
-      public int updatePurchase(PurchaseTable purchase) {
+      public int update(PurchaseTable purchase) {
             String sql = "UPDATE purchasehistory SET userId = :userId, isPending = :isPending WHERE id = :id";
             SqlParameterSource paramSource = new MapSqlParameterSource()
                   .addValue("id", purchase.getId())
@@ -35,21 +35,28 @@ public class PurchaseDAO {
             return jdbcTemplate.update(sql, paramSource);
       }
 
-      public int deletePurchase(int id) {
+      public int delete(int id) {
             String sql = "DELETE FROM purchasehistory WHERE id = :id";
             SqlParameterSource paramSource = new MapSqlParameterSource()
                   .addValue("id", id);
             return jdbcTemplate.update(sql, paramSource);
       }
 
-      public Optional<PurchaseTable> getPurchase(int id) {
+      public Optional<PurchaseTable> getById(int id) {
             String sql = "SELECT * FROM purchasehistory WHERE id = :id";
             SqlParameterSource paramSource = new MapSqlParameterSource()
                   .addValue("id", id);
             return jdbcTemplate.query(sql, paramSource, purchaseSetExtractor);
       }
 
-      public List<PurchaseTable> getAllPurchases() {
+      public List<PurchaseTable> getByUserId(int userId) {
+            String sql = "SELECT * FROM purchasehistory WHERE userId = :userId";
+            SqlParameterSource paramSource = new MapSqlParameterSource()
+                  .addValue("userId", userId);
+            return jdbcTemplate.query(sql, paramSource, new BeanPropertyRowMapper<>(PurchaseTable.class));
+      }
+
+      public List<PurchaseTable> getAll() {
             String sql = "SELECT * FROM purchasehistory";
             SqlParameterSource paramSource = new MapSqlParameterSource();
             return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(PurchaseTable.class));
