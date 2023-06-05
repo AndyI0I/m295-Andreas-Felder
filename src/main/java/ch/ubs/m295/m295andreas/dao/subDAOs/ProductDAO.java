@@ -19,7 +19,7 @@ public class ProductDAO {
       private ProductSetExtractor productSetExtractor;
 
       public int add(ProductTable product) {
-            String sql = "INSERT INTO product (productname, seller, price) VALUES (:productname, :seller, :price)";
+            String sql = "INSERT INTO products (productname, seller, price) VALUES (:productname, :seller, :price)";
             SqlParameterSource namedParameters = new MapSqlParameterSource()
                   .addValue("productname", product.getProductname())
                   .addValue("seller", product.getSeller())
@@ -28,7 +28,7 @@ public class ProductDAO {
       }
 
       public int update(ProductTable product) {
-            String sql = "UPDATE product SET productname = :productname,  seller = :seller WHERE id = :id";
+            String sql = "UPDATE products SET productname = :productname,  seller = :seller WHERE id = :id";
             SqlParameterSource namedParameters = new MapSqlParameterSource()
                   .addValue("id", product.getId())
                   .addValue("productname", product.getProductname())
@@ -39,7 +39,7 @@ public class ProductDAO {
 
       public int delete(int id) {
             String sql =
-                   "DELETE p, m FROM Products p " +
+                   "DELETE p, m FROM products p " +
                   "LEFT JOIN PurchaseToProductMapping m ON p.id = m.productId " +
                   "WHERE p.id = :id";
             SqlParameterSource namedParameters = new MapSqlParameterSource()
@@ -48,14 +48,14 @@ public class ProductDAO {
       }
 
       public Optional<ProductTable> get(int id) {
-            String sql = "SELECT * FROM product WHERE id = :id";
+            String sql = "SELECT * FROM products WHERE id = :id";
             SqlParameterSource namedParameters = new MapSqlParameterSource()
                   .addValue("id", id);
             return jdbcTemplate.query(sql, namedParameters, productSetExtractor);
       }
 
       public List<ProductTable> getAll() {
-            String sql = "SELECT * FROM product";
+            String sql = "SELECT * FROM products";
             SqlParameterSource namedParameters = new MapSqlParameterSource();
             return jdbcTemplate.query(sql, namedParameters, new BeanPropertyRowMapper<>(ProductTable.class));
       }

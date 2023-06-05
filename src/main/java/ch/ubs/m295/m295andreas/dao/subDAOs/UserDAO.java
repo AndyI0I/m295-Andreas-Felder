@@ -30,14 +30,14 @@ public class UserDAO {
       }
 
       //update user
-      public void update(UserTable user) {
+      public int update(UserTable user) {
             String sql = "UPDATE users SET username = :username, email = :email, password = :password WHERE id = :id";
             SqlParameterSource paramSource = new MapSqlParameterSource()
                   .addValue("id", user.getId())
                   .addValue("username", user.getUsername())
                   .addValue("email", user.getEmail())
                   .addValue("password", user.getPassword());
-            jdbcTemplate.update(sql, paramSource);
+            return jdbcTemplate.update(sql, paramSource);
       }
 
       //get user
@@ -56,11 +56,11 @@ public class UserDAO {
       }
 
       //delete user
-      public void delete(int id) {
+      public int delete(int id) {
             String sql = "DELETE FROM users WHERE id = :id";
             SqlParameterSource paramSource = new MapSqlParameterSource()
                   .addValue("id", id);
-            jdbcTemplate.update(sql, paramSource);
+            return jdbcTemplate.update(sql, paramSource);
       }
 
       

@@ -9,6 +9,93 @@ servers:
   - url: https://localhost:8443
 
 paths:
+  /user/{userId}:
+    get:
+      description: Get single user with no other information
+      parameters:
+        - name: userId
+          in: path
+          description: ID of the user to get
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: user found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+    delete:
+      description: Delete single user out of the database
+      parameters:
+        - name: userId
+          in: path
+          description: ID of the user to get
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '204':
+          description: user removed
+
+    put:
+      description: Update a user
+      parameters:
+        - name: userId
+          in: path
+          description: ID of the user to get
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '204':
+          description: User has been updated correctly
+
+  /user:
+    post:
+      description: Create a new User
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: User has been created correctly
+
+  /product/{productId}/user:
+    get:
+      description: Get users that bought this product
+      parameters:
+        - name: productId
+          in: path
+          description: ID of the product to retrieve all users associated with it
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: users found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+
+
   /users:
     get:
       description: Get all users
@@ -32,49 +119,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/User'
-
-  /users/{userId}:
-    get:
-      description: Get a user by ID
-      parameters:
-        - name: userId
-          in: path
-          description: ID of the user to retrieve
-          required: true
-          schema:
-            type: integer
-            format: int32
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-
-  /salehistory:
-    get:
-      description: Get all sale histories
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Purchase'
-    post:
-      description: Create a new sale history
-      responses:
-        '200':
-          description: OK
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Purchase'
 
   /salehistory/{saleHistoryId}:
     get:
@@ -137,6 +181,38 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Product'
+    put:
+      description: Update a product by ID
+      parameters:
+        - name: productId
+          in: path
+          description: ID of the product to update
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        '204':
+          description: Product has been updated correctly
+    delete:
+      description: Delete a product by ID
+      parameters:
+        - name: productId
+          in: path
+          description: ID of the product to delete
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '204':
+          description: Product has been removed
 
 components:
   schemas:

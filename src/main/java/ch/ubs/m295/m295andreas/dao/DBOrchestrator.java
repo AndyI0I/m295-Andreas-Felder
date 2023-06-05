@@ -46,16 +46,23 @@ public class DBOrchestrator {
             WebToDBConverter.convertToMappingList(purchase, productId).forEach(purchaseToProductMappingDAO::add);
       }
 
-      public void deletePurchase(int purchaseId) {
-            purchaseToProductMappingDAO.deleteByPurchaseId(purchaseId);
-            purchaseDAO.delete(purchaseId);
+      public int deletePurchase(int purchaseId) {
+
+            int ptpRecords = purchaseToProductMappingDAO.deleteByPurchaseId(purchaseId);
+            int purchaseRecords = purchaseDAO.delete(purchaseId);
+
+            return ptpRecords + purchaseRecords;
+      }
+
+      public int deleteUser(int userId) {
+            getPurchasesByUserId(userId).forEach(purchase -> deletePurchase(purchase.getId()));
+            return userDAO.delete(userId);
       }
 
       public int deleteProduct(int productId) {
-            int affectedRows = 0;
-            affectedRows += purchaseToProductMappingDAO.deleteByProductId(productId);
-            affectedRows += productDAO.delete(productId);
-            return affectedRows;
+            int ptpRecords = purchaseToProductMappingDAO.deleteByProductId(productId);
+            int productRecords = productDAO.delete(productId);
+            return ptpRecords + productRecords;
       }
 
       public List<Purchase> getPurchasesByUserId(int userId) {
@@ -75,14 +82,30 @@ public class DBOrchestrator {
             return purchasesResult;
       }
 
-      public void deleteUser(int userId) {
-            getPurchasesByUserId(userId).forEach(purchase -> deletePurchase(purchase.getId()));
-            userDAO.delete(userId);
+      public Purchase getPurchaseById(int purchaseId) {
+            PurchaseTable pt = purchaseDAO.getById(purchaseId).orElseThrow();
+            Purchase p = WebToDBConverter.convert(pt);
+            p.setProducts(new ArrayList<>());
+            purchaseToProductMappingDAO.getByPurchaseId(purchaseId).forEach(mapping -> {
+                  ProductTable pt2 = productDAO.get(mapping.getProductId()).orElseThrow();
+                  Product pr = WebToDBConverter.convert(pt2);
+                  pr.setQuantity(mapping.getQuantity());
+                  p.getProducts().add(pr);
+            });
+            return p;
       }
+
 
       public Product getProductById(int productId) {
             ProductTable pt = productDAO.get(productId).orElseThrow();
             return WebToDBConverter.convert(pt);
+      }
+
+      public User getUserById(int userId) {
+            UserTable ut = userDAO.get(userId).orElseThrow();
+            User u = WebToDBConverter.convert(ut);
+            u.setPurchaseHistory(getPurchasesByUserId(userId));
+            return u;
       }
 
       public List<User> getAllUsers() {
@@ -91,6 +114,7 @@ public class DBOrchestrator {
             users.forEach(user -> {
                   User u = WebToDBConverter.convert(user);
                   u.setPurchaseHistory(getPurchasesByUserId(u.getId()));
+                  usersResult.add(u);
             });
             return usersResult;
       }
@@ -120,6 +144,20 @@ public class DBOrchestrator {
                   purchasesResult.add(p);
             });
             return purchasesResult;
+      }
+
+      public int updateProduct(int productId,Product product) {
+            product.setId(productId);
+            return productDAO.update(WebToDBConverter.convert(product));
+      }
+
+      public int updateUser(int userId, User user) {
+            user.setId(userId);
+            return userDAO.update(WebToDBConverter.convert(user));
+      }
+
+      public int updatePurchase(Purchase purchase, int userId) {
+            return purchaseDAO.update(WebToDBConverter.convert(purchase, userId));
       }
 
 }

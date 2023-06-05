@@ -88,15 +88,19 @@ public class WebToDBConverter {
             return purchase;
       }
 
-      public static PurchaseToProductMappingTable convertToMapping (Purchase purchase, int userId){
+      public static PurchaseToProductMappingTable convertToMapping (Purchase purchase){
             PurchaseToProductMappingTable purchaseToProductMappingTable = new PurchaseToProductMappingTable();
+            purchaseToProductMappingTable.setPurchaseId(purchase.getId());
+            purchaseToProductMappingTable.setProductId(purchase.getProducts().get(0).getId());
+            purchaseToProductMappingTable.setQuantity(purchase.getProducts().get(0).getQuantity());
+
             return purchaseToProductMappingTable;
       }
 
       public static List<PurchaseToProductMappingTable> convertToMappingList (Purchase purchase, int userId){
             List<PurchaseToProductMappingTable> purchaseToProductMappingTable = new ArrayList<>();
             purchase.getProducts().forEach(product -> {
-                  purchaseToProductMappingTable.add(convertToMapping(purchase, userId));
+                  purchaseToProductMappingTable.add(convertToMapping(purchase));
             });
             return purchaseToProductMappingTable;
       }
