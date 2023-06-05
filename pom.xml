@@ -8,11 +8,11 @@
         <version>3.1.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>ch.ubsm295</groupId>
-    <artifactId>demo</artifactId>
+    <groupId>ch.ubs.m295</groupId>
+    <artifactId>M295-Andreas</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>m295</name>
-    <description>m295</description>
+    <name>M295-Andreas</name>
+    <description>M295-Andreas</description>
     <properties>
         <java.version>17</java.version>
     </properties>
@@ -165,5 +165,4 @@
 
         </plugins>
     </build>
-
 </project>
