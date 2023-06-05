@@ -192,3 +192,7 @@ This is a Spring Boot REST API for Online Store. The server can be reached at `h
 ## Authentication
 
 You are authenticated using basic Auth. The username is 'user' and the password is '1234'
+
+## Authorization
+
+All pages except Products are available to users without the role "User", i tried to make all post, put and delete methods accessible only to users with the role "User" but i couldn't make it work.
