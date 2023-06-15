@@ -10,9 +10,6 @@
         <module name="m295-Andreas-Felder" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="M295-Andreas" target="17" />
-    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
