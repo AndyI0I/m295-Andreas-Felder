@@ -190,16 +190,72 @@
 
 </div>
 
+
+<!-- Details Modal -->
+<div class="modal" id="detailsModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detailsModalTitle"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body row col">
+                <div class="col-5">
+                    <div class="col">
+                        <div class="col" id="detailsModalBody"></div>
+                    </div>
+                </div>
+                <div class="col-7">
+                    <div id="modalTableContent"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div id="editMenu"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Mini popup window for updating a product -->
+<div class="modal" id="updateProductModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Update Product</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="updateProductNameInput">Product Name:</label>
+                    <input type="text" id="updateProductNameInput" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label for="updateSellerInput">Seller:</label>
+                    <input type="text" id="updateSellerInput" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label for="updatePriceInput">Price:</label>
+                    <input type="number" id="updatePriceInput" disabled class="form-control">
+                </div>
+                <button id="updateProductButton" class="btn btn-primary">Update Product</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 <!-- jQuery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <!-- Bootstrap JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.5.0/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
 <!-- jQuery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="//cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <!-- Bootstrap JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.5.0/js/bootstrap.bundle.min.js"></script>
+
 <!-- Custom JS -->
 <script src="main.js"></script>
 </html>
