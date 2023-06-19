@@ -14,6 +14,10 @@ Our database consists of four tables:
 ### `users`
 
 This table stores user data.
+```sql
+CREATE DATABASE m295;
+use m295;
+```
 
 ```sql
 CREATE TABLE IF NOT EXISTS users (

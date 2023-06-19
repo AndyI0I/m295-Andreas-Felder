@@ -7,12 +7,14 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="M295-Andreas" />
+        <module name="m295-Andreas-Felder" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="M295-Andreas" options="-parameters" />
+      <module name="m295-Andreas-Felder" options="-parameters" />
     </option>
   </component>
 </project>
