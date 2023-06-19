@@ -2,6 +2,8 @@ $(document).ready(function() {
     //initialize the javascript
     //====================================================================================================
     var usersData = [];
+    var User ={};
+    var purchaseMade = [];
     var productsData = [];
     var productUsersData = [];
     var productUsersTable;
@@ -311,6 +313,36 @@ $(document).ready(function() {
         return table;
     }
 
+    function populatePurchaseTable(id, data){
+        var tableHtml = '<table id="purchaseTable" class="table table-striped">';
+        tableHtml += '<thead><tr><th>Purchase ID</th><th>Products bought</th> <th>Total Cost</th> <th>Pending</th></tr></thead>';
+        tableHtml += '<tbody>';
+
+
+        data.forEach(function(purchase) {
+            tableHtml += '<tr>';
+            tableHtml += '<td>' + purchase.PurchaseId + '</td>';
+            tableHtml += '<td>' + purchase.ProductsBought + '</td>';
+            tableHtml += '<td>' + parseFloat(purchase.TotalCost).toFixed(2)+ '</td>';
+            tableHtml += '<td>' + purchase.Pending + '</td>';
+            tableHtml += '</tr>';
+        });
+
+        tableHtml += '</tbody></table>';
+
+        // Set the table HTML content
+        $(id).html(tableHtml);
+
+        // Initialize the DataTable
+        var table = $('#productUsersTable').DataTable({
+            searching: false,
+            paging: false,
+            info: false
+        });
+
+        return table;
+    }
+
     // Password strength progress bar
     $('#passwordInput').on('input', function() {
         var password = $(this).val();
@@ -487,6 +519,90 @@ $(document).ready(function() {
         return null;
     }
 
+    function openUpdateUserModal(user) {
+        // Fetch the existing user details
+        $('#updateUsernameInput').val(user.username);
+        $('#updateEmailInput').val(user.email);
+
+        // Show the mini popup window
+        $('#updateUserModal').modal('show');
+
+        $('#updateUserButton').on('click', function() {
+            // Create a new user object with updated details
+            var updatedUser = {
+                username: $('#updateUsernameInput').val(),
+                email: $('#updateEmailInput').val(),
+            };
+
+            // Send the PUT request to update the user
+            fetch('http://localhost:8080/user/' + user.id, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(updatedUser),
+            })
+                .then(response => {
+                    if (response.ok) {
+                        alert('User updated successfully.');
+
+                        // Update the usersData array with the updated user
+                        var index = usersData.findIndex(u => u.id === user.id);
+                        if (index !== -1) {
+                            usersData[index] = updatedUser;
+                        }
+
+                        // Refresh the user list or update the UI accordingly
+                        refreshUserList();
+                    } else {
+                        alert('Failed to update user.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error updating user:', error);
+                    alert('An error occurred while updating the user.');
+                });
+        });
+    }
+
+    // Function to refresh the user list
+    function refreshUserList() {
+        usersTable.clear().rows.add(usersData).draw();
+    }
+
+
+    function confirmDeleteUser(user) {
+        // Show confirmation dialog
+        var confirmation = confirm('Are you sure you want to delete this user?');
+
+        if (confirmation) {
+            // Send the DELETE request to remove the user
+            fetch('http://localhost:8080/user/' + user.id, {
+                method: 'DELETE',
+            })
+                .then(response => {
+                    if (response.ok) {
+                        alert('User deleted successfully.');
+
+                        // Remove the user from the usersData array
+                        var index = usersData.findIndex(u => u.id === user.id);
+                        if (index !== -1) {
+                            usersData.splice(index, 1);
+                        }
+
+                        // Refresh the user list or update the UI accordingly
+                        refreshUserList();
+                    } else {
+                        alert('Failed to delete user.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error deleting user:', error);
+                    alert('An error occurred while deleting the user.');
+                });
+        }
+    }
+
     // Function to populate the modal with data
     function populateModal(data) {
         var modalTitle = $('#detailsModalTitle');
@@ -536,15 +652,44 @@ $(document).ready(function() {
                 editMenu.append('<button id="editUserButton" class="btn btn-primary">Update Details</button>');
                 editMenu.append('<button id="removeUserButton" class="btn btn-danger">Remove User</button>');
 
+                var userDataUrl = "http://localhost:8080/user/" + data.id;
+                purchaseMade = [];
+                fetch(userDataUrl)
+                    .then(response => response.json())
+                    .then(data => {
+                        User = data;
+
+                        User.purchaseHistory.forEach(purchase => {
+                            let productsBought = 0;
+                            let totalCost = 0;
+
+                            purchase.Products.forEach(product => {
+                                productsBought += product.quantity;
+                                totalCost += product.price * product.quantity;
+                            })
+
+                            let purchaseRecord = {
+                                PurchaseId: purchase.id,
+                                ProductsBought: productsBought,
+                                TotalCost: totalCost,
+                                Pending: purchase.isPending
+                            }
+                            purchaseMade.push(purchaseRecord);
+                        });
+
+                        productUsersTable = populatePurchaseTable("#modalTableContent", purchaseMade);
+                    })
+                    .catch(error => {
+                        console.error('Error fetching product users:', error);
+                    });
+
                 // Add click event listeners for the buttons
                 $('#editUserButton').click(function() {
-                    // Handle edit user button click
-                    // Add your code here
+                    openUpdateUserModal(data);
                 });
 
                 $('#removeUserButton').click(function() {
-                    // Handle remove user button click
-                    // Add your code here
+                    confirmDeleteUser(data);
                 });
             }
         }
