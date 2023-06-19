@@ -1,0 +1,25 @@
+.table-container {
+    height: 500px; /* Adjust the height as needed */
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.tab-bar-container {
+    height: 500px; /* Adjust the height as needed */
+    overflow-y: auto;
+}
+
+/* Center the container */
+.center-container {
+    margin-top:10vh;
+}
+
+.rounded-box {
+    border-radius: 17px;
+    margin: 3px;
+    box-shadow: 0px 0px 10px 1px #00000047;
+}
+
+.main-box {
+    height: 600px;
+}
