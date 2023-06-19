@@ -3,12 +3,56 @@ $(document).ready(function() {
     var usersData = [];
     var productsData = [];
 
+    var usersTable;
+    var productsTable;
+    var productsResult = $('#searchResultsTableProducts').DataTable({
+        data: [],
+        columns: [
+            { data: 'productname' },
+            { data: 'seller' },
+            {
+                data: 'price',
+                render: function(data) {
+                    var formattedPrice = parseFloat(data).toFixed(2);
+                    return formattedPrice;
+                },
+            },
+            {
+                data: null,
+                orderable: false,
+                render: function(data) {
+                    return '<button id="productId-' + data.id + '" class="btn btn-outline-secondary">&minus;</button>';
+                },
+            },
+        ],
+        searching: false,
+        paging: false,
+        info: false,
+    });
+    var usersResults = $('#searchResultsTableUsers').DataTable({
+        data: [],
+        columns: [
+            { data: 'username' },
+            { data: 'email' },
+            {
+                data: null,
+                orderable: false,
+                render: function(data) {
+                    return '<button id="userId-' + data.id + '" class="btn btn-outline-secondary">&minus;</button>';
+                },
+            },
+        ],
+        searching: false,
+        paging: false,
+        info: false,
+    });
+
     // Fetch all users
     fetch('http://localhost:8080/users')
         .then(response => response.json())
         .then(data => {
             usersData = data;
-            populateUsersTable();
+            populateUsersTable(usersTable);
         })
         .catch(error => {
             console.error('Error fetching users:', error);
@@ -19,48 +63,58 @@ $(document).ready(function() {
         .then(response => response.json())
         .then(data => {
             productsData = data;
-            populateProductsTable();
+            populateProductsTable(productsTable);
         })
         .catch(error => {
             console.error('Error fetching products:', error);
         });
 
     // Populate users table
-    function populateUsersTable() {
-        var usersTable = $('#usersTable').DataTable({
+    function populateUsersTable(table) {
+        table = $('#usersTable').DataTable({
             data: usersData,
             columns: [
                 { data: 'username' },
                 { data: 'email' },
-                { data: null, orderable: false, render: function(data) {
-                        return '<button class="btn btn-outline-secondary">&minus;</button>';
-                    }}
+                {
+                    data: null,
+                    orderable: false,
+                    render: function(data) {
+                        return '<button id="userId-' + data.id + '" class="btn btn-outline-secondary">&minus;</button>';
+                    },
+                },
             ],
             searching: false,
             paging: false,
-            info: false
+            info: false,
         });
     }
 
     // Populate products table
-    function populateProductsTable() {
-        var productsTable = $('#productsTable').DataTable({
+    function populateProductsTable(table) {
+        table = $('#productsTable').DataTable({
             data: productsData,
             columns: [
                 { data: 'productname' },
                 { data: 'seller' },
-                { data: 'price', render: function(data) {
+                {
+                    data: 'price',
+                    render: function(data) {
                         var formattedPrice = parseFloat(data).toFixed(2);
-                        var displayPrice = formattedPrice.substring(0, 4);
-                        return displayPrice;
-                    }},
-                { data: null, orderable: false, render: function(data) {
-                        return '<button class="btn btn-outline-secondary">&minus;</button>';
-                    }}
+                        return formattedPrice;
+                    },
+                },
+                {
+                    data: null,
+                    orderable: false,
+                    render: function(data) {
+                        return '<button id="productId-' + data.id + '" class="btn btn-outline-secondary">&minus;</button>';
+                    },
+                },
             ],
             searching: false,
             paging: false,
-            info: false
+            info: false,
         });
     }
 
@@ -86,13 +140,42 @@ $(document).ready(function() {
         var repeatPassword = $('#repeatPasswordInput').val();
 
         // Perform validation and add user
-        // ...
+        if (!validateEmail(email)) {
+            alert('Please enter a valid email address.');
+            return;
+        }
 
-        // Clear input fields
-        $('#usernameInput').val('');
-        $('#emailInput').val('');
-        $('#passwordInput').val('');
-        $('#repeatPasswordInput').val('');
+        if (password !== repeatPassword) {
+            alert('Passwords do not match.');
+            return;
+        }
+
+        // Create user object
+        var newUser = {
+            username: username,
+            email: email,
+            password: password,
+        };
+
+        // Send POST request to create user
+        fetch('http://localhost:8080/users', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(newUser),
+        })
+            .then(response => {
+                if(response.ok) {
+                    alert('User created successfully.');
+                    usersData.push(newUser);
+                    usersTable.row.add(newUser).draw();
+                }
+            })
+            .catch(error => {
+                console.error('Error creating user:', error);
+                alert('An error occurred while creating the user.');
+            });
     });
 
     // Add Product button click event
@@ -103,12 +186,37 @@ $(document).ready(function() {
         var price = parseFloat($('#priceInput').val());
 
         // Perform validation and add product
-        // ...
+        if (price < 0) {
+            alert('Price must be zero or above.');
+            return;
+        }
 
-        // Clear input fields
-        $('#productNameInput').val('');
-        $('#sellerInput').val('');
-        $('#priceInput').val('');
+        // Create product object
+        var newProduct = {
+            productname: productName,
+            seller: seller,
+            price: price,
+        };
+
+        // Send POST request to create product
+        fetch('http://localhost:8080/products', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(newProduct),
+        })
+            .then(response => {
+                if(response.ok) {
+                    alert('Product created successfully.');
+                    productsData.push(newProduct);
+                    productsTable.row.add(newProduct).draw();
+                }
+            })
+            .catch(error => {
+                console.error('Error creating product:', error);
+                alert('An error occurred while creating the product.');
+            });
     });
 
     // User Search button click event
@@ -123,13 +231,14 @@ $(document).ready(function() {
                 return user.email.toLowerCase().includes(searchValue);
             }
         });
-        console.log(filteredUsers);
-        populateSearchResultsUsersTable(filteredUsers);
+
+        showSearchResults(usersResults, filteredUsers);
     });
 
     // Product Search button click event
     $('#searchButtonProducts').click(function() {
         var filter = $('input[name="productFilter"]:checked').val();
+        var searchValue = $('#productSearchInput').val().toLowerCase();
         var minPrice = parseFloat($('#minPriceInput').val());
         var maxPrice = parseFloat($('#maxPriceInput').val());
 
@@ -153,49 +262,52 @@ $(document).ready(function() {
             });
         }
 
-        populateSearchResultsProductsTable( filteredProducts);
+        showSearchResults(productsResult, filteredProducts);
     });
 
-
-
-
-    // Populate search results table for users
-    function populateSearchResultsUsersTable(searchData) {
-        var searchResultsTable = $('#searchResultsTableUsers').DataTable({
-            data: searchData,
-            columns: [
-                { data: 'username' },
-                { data: 'email' },
-                { data: null, orderable: false, render: function(data) {
-                        return '<button class="btn btn-outline-secondary">&minus;</button>';
-                    }}
-            ],
-            searching: false,
-            paging: false,
-            info: false
-        });
+    // Populate search results table
+    function showSearchResults(table, searchData) {
+        table.clear();
+        table.rows.add(searchData);
+        table.draw();
     }
 
-// Populate search results table for products
-    function populateSearchResultsProductsTable(searchData) {
-        var searchResultsTable = $('#searchResultsTableProducts').DataTable({
-            data: searchData,
-            columns: [
-                { data: 'productname' },
-                { data: 'seller' },
-                { data: 'price', render: function(data) {
-                        var formattedPrice = parseFloat(data).toFixed(2);
-                        var displayPrice = formattedPrice.substring(0, 4);
-                        return displayPrice;
-                    }},
-                { data: null, orderable: false, render: function(data) {
-                        return '<button class="btn btn-outline-secondary">&minus;</button>';
-                    }}
-            ],
-            searching: false,
-            paging: false,
-            info: false
-        });
+    // Password strength progress bar
+    $('#passwordInput').on('input', function() {
+        var password = $(this).val();
+        var strength = calculatePasswordStrength(password);
+
+        $('#passwordStrengthBar')
+            .css('width', strength + '%')
+            .attr('aria-valuenow', strength);
+    });
+
+    // Password strength calculation
+    function calculatePasswordStrength(password) {
+        var strength = 0;
+
+        if (password.length >= 8) {
+            strength += 30;
+        }
+
+        if (/[A-Z]/.test(password)) {
+            strength += 30;
+        }
+
+        if (/[0-9]/.test(password)) {
+            strength += 30;
+        }
+
+        if (/[!@#$%^&*]/.test(password)) {
+            strength += 10;
+        }
+
+        return strength;
     }
 
+    // Email validation
+    function validateEmail(email) {
+        var emailRegex = /\S+@\S+\.\S+/;
+        return emailRegex.test(email);
+    }
 });
